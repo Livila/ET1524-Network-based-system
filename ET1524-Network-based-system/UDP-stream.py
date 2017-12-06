@@ -1,7 +1,7 @@
 from socket import *
 import time
 
-host = '127.0.0.1'
+host = '192.168.43.108'
 port = 12000
 serverPort = 12001
 
