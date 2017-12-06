@@ -19,5 +19,6 @@ sequence = 10001
 while True:
 	s.sendto((str(sequence) + ';' + message).encode(), (host, port))
 	sequence += 1
+
 	time.sleep(1)
 
