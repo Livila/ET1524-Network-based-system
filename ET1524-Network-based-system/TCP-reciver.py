@@ -5,26 +5,32 @@
 
 from socket import *
 # serverName = 'hostname'
-serverName = '192.168.2.4'
-serverPort = 12000
-
+serverName = '127.0.0.1'
+serverPort = 12001
 # create TCP socket on client to use for connecting to remote server
 clientSocket = socket(AF_INET, SOCK_STREAM)
 
-# open the TCP connection
-clientSocket.connect((serverName, serverPort))
+#timeout
+#clientSocket.settimeout(1000)
 
-# Input sentence from keyboard
-sentence = input('Input lowercase sentence: ')
+while True:
+    print("trying to connect to: " + serverName + ":" + str(serverPort))
 
-# send text over the TCP connection
-# there's no need to specify server name & port
-# sentence converted to bytes
-clientSocket.send(sentence.encode())
+    # open the TCP connection
+    try: 
+        clientSocket.connect((serverName, serverPort))
+        break
+    except:
+        serverName = input('input server name: ')
+print("server connection establiched")
 
-# get modified sentence back from server
-modifiedSentence = clientSocket.recv(1024)
-print ('From Server:', modifiedSentence.decode())
 
+while True:
+
+    # get modified sentence back from server
+    data = clientSocket.recv(1024)
+    print ('From Server:', data[:5].decode())
+
+print("connection closed")
 # close the TCP connection
 clientSocket.close()
