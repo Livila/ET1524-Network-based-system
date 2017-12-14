@@ -3,6 +3,8 @@
 # Exempel från kursbok
 
 from socket import *
+import time
+import sys
 
 # get nr of udp utskick per sec
 sentence = 'help';
@@ -32,7 +34,7 @@ serverSocket.bind(('',serverPort))
 # server starts listening for incoming TCP requests
 serverSocket.listen(1)
 
-print ('The TCP server is ready to receive')
+print ('The TCP is ready to send')
 
 
 messageMaxLen = 100;
@@ -46,15 +48,24 @@ sequence = 10001
 # server waits for incoming requests; new socket created on return
 connectionSocket, addr = serverSocket.accept()
 
+whileTrue = True
+
+while whileTrue:
+    try:
+        connectionSocket.send((str(sequence) + ';' + message).encode())
+        sys.stdout.write("\033[F") #go up a line
+        sys.stdout.write("\033[K") #clear line
+        print(sequence)
 
 
-while True:
-
-    connectionSocket.send((str(sequence) + ';' + message).encode())
+    except:
+        whileTrue = False
+        
     sequence += 1
     time.sleep(1/nrPerSec)
 
     
 # close the TCP connection; the welcoming socket continues
 connectionSocket.close()
+print("connection closed")
 
