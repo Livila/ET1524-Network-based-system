@@ -1,6 +1,4 @@
-# TCP Client
-# Anders Nelsson BTH
-# Exempel från kursbok
+# TCP reciver
 
 from socket import *
 # serverName = 'hostname'
@@ -15,11 +13,21 @@ clientSocket.connect((serverName, serverPort))
 
 # Input sentence from keyboard
 
+prevPacket = 10000
 
 while True:
     # get modified sentence back from server
-    myNumber = clientSocket.recv(1024)
-    print ('From Server:', myNumber.decode())
+    myNumber = clientSocket.recv(100)
+   
+    if prevPacket + 1 != int((myNumber.decode())[:5]):
+        test = (myNumber.decode())[:5]
+        if test == "00000" :
+            print(myNumber.decode())
+        else :
+            print(test)
+
+    prevPacket = int((myNumber.decode())[:5]);
+    #print ('From Server:', myNumber.decode())
 
 # close the TCP connection
 clientSocket.close()
